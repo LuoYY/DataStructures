@@ -26,19 +26,11 @@ int FindKthLargest(int S[], int K, int Low, int High)
 	{
 		return Pivot;
 	}
-	Swap(&S[Low], &S[High]);
-	while(1)
+	while(Low < High)
 	{
+		Swap(&S[Low], &S[High]);
 		while(Low < High && S[Low] >= Pivot) Low++;
 		while(Low < High && S[High] <= Pivot) High--;
-		if (Low < High)
-		{
-			Swap(&S[Low], &S[High]);
-		}
-		else
-		{
-			break;
-		}
 	}
 	Swap(&S[Low], &S[Right]);
 	if (K <= High - Left)
