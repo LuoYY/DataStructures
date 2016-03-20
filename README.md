@@ -2,4 +2,4 @@
 
 Some Data Structures mini-practice
 
-This repository is used to back up the code writing for learning data structures.
+This repository is used to backup the code writing for learning data structures.
