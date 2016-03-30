@@ -77,32 +77,28 @@ NodePtr AddTwoLinkedList(NodePtr L1, NodePtr L2)
 
 NodePtr Insert(NodePtr L, int X)
 {
-	NodePtr Front, Curr;
 	NodePtr Head = (NodePtr)malloc(sizeof(struct Node));
-
+	NodePtr Front = Head;
 	Head->Next = L;
-	Front = Head;
-	Curr = Front->Next;
 
-	NodePtr temp = (NodePtr)malloc(sizeof(struct Node));
-	temp->Data = X;
-	temp->Next = NULL;
+	NodePtr Temp = (NodePtr)malloc(sizeof(struct Node));
+	Temp->Data = X;
+	Temp->Next = NULL;
 
-	while ( Curr && X > Curr->Data)
+	while ( L && X > L->Data)
 	{
-		Front = Curr;
-		Curr = Front->Next;
+		L = L->Next;
+		Front = Front->Next;
 	}
 
-	temp->Next = Curr;
+	Temp->Next = L;
 	Front->Next = temp;
-	L = Head->Next;
 
+	L = Head->Next;
 	free(Head);
 
 	return L;
 }
-
 
 void printLinkedList(NodePtr L)
 {
