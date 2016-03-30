@@ -1,6 +1,7 @@
 /*
 * Data Structures in C
 * Calc the sum and product of two polynomials in one variable
+* 20160331
 * LuoYingYing
 */
 
