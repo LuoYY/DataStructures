@@ -13,18 +13,18 @@ double CalcDistance(double h);
 
 int main(int argc, char const *argv[])
 {
-	printf("%.6f\n", CalcDistance(10));
-	return 0;
+    printf("%.6f\n", CalcDistance(10));
+    return 0;
 }
 
 double CalcDistance(double h)
 {
-	if ( 0.9*h < 1e-6)
-	{
-		return h;
-	}
-	else
-	{
-		return h + 0.9*h + CalcDistance(0.9*h);
-	}
+    if ( 0.9*h < 1e-6)
+    {
+        return h;
+    }
+    else
+    {
+        return h + 0.9*h + CalcDistance(0.9*h);
+    }
 }
