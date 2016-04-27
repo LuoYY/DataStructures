@@ -1,6 +1,6 @@
 /*
 * Data Structures in C
-* Tree Traversals Again
+* Tree Traversals
 * 20160416
 * LuoYingYing
 */
@@ -39,11 +39,12 @@ int main(int argc, char const *argv[])
     stk->Next = NULL;
 
     scanf("%d", &N);
-    for (i = 0; i < N; ++i)
+    for (i = 0; i < 2*N; ++i)
     {
+        int cnt = 0;
         char str[8];
-        str = gets();
-        while(string[cnt] != '\0')
+        gets(str);
+        while(str[cnt] != '\0')
         {
             cnt++;
         }
@@ -80,6 +81,7 @@ int main(int argc, char const *argv[])
         }
         previousOp = op;
     }
+    
     TreeTraversals(root, &isFirstPrint);
     return 0;
 }
@@ -111,10 +113,13 @@ void TreeTraversals(NodePtr root, bool* isFirstPrint)
     {
         TreeTraversals(root->Left, isFirstPrint);
         TreeTraversals(root->Right, isFirstPrint);
-        if(!*isFirstPrint)
+        if(*isFirstPrint)
+        {
+            *isFirstPrint = false;
+        }
+        else
         {
             printf(" ");
-            *isFirstPrint = false;
         }
         printf("%d", root->Data);
     }
