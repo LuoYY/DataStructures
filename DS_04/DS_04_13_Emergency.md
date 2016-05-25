@@ -1,8 +1,4 @@
----
-title: 1003. Emergency (25)
-tags: 
-grammar_cjkRuby: true
----
+#1003. Emergency (25)
 
 As an emergency rescue team leader of a city, you are given a special map of your country. The map shows several scattered cities connected by some roads. Amount of rescue teams in each city and the length of each road between any pair of cities are marked on the map. When there is an emergency call to you from some other city, your job is to lead your men to the place as quickly as possible, and at the mean time, call up as many hands on the way as possible.
 
