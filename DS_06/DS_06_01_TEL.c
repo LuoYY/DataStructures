@@ -29,44 +29,21 @@ struct CellNode
 
 HashTable CreateHashTable(long N);
 long Find(HashTable H, char *Elem);
-void Insert(HashTable H, char *Elem);
+void Insert(HashTable H, char *Elem, long *MaxCnt, long *MaxIndex, long *NumOfMax);
 long Hash(char *Data, long N);
 long getNextPrime(long N);
 bool IsPrime(long N);
-void StrCpy(char *A, char *B);
-int StrCmp(char *A, char *B);
 
 int main(int argc, char const *argv[])
 {
-    long N, i, MaxCnt = 0, MaxIndex = 0, Cnt, NumOfMax = 0;
-    char *TelNum, *Tel;
-    TelNum = malloc(LENGTH * sizeof(char));
+    long N, i, MaxCnt = 0, MaxIndex = 0, NumOfMax = 0;
+    char *TelNum = malloc(LENGTH * sizeof(char));
     scanf("%ld", &N);
     HashTable H = CreateHashTable(N);
     for (i = 0; i < 2 * N; i++)
     {
         scanf("%s", TelNum);
-        Insert(H, TelNum);
-    }
-    for (i = 0; i < H->TableSize; i++)
-    {
-        Cnt = H->TheCells[i]->Cnt;
-        Tel = H->TheCells[i]->Data;
-        if (Cnt != 0 &&
-            (Cnt > MaxCnt ||
-            (Cnt == MaxCnt && (StrCmp(Tel, H->TheCells[MaxIndex]->Data) == 1))))
-        {
-            MaxCnt = Cnt;
-            MaxIndex = i;
-        }
-    }
-    for (i = 0; i < H->TableSize; i++)
-    {
-        Cnt = H->TheCells[i]->Cnt;
-        if (MaxCnt == Cnt)
-        {
-            NumOfMax++;
-        }
+        Insert(H, TelNum, &MaxCnt, &MaxIndex, &NumOfMax);
     }
     if (NumOfMax > 1)
     {
@@ -101,11 +78,11 @@ long Find(HashTable H, char *Elem)
     long NewPos = Hash(Elem, H->TableSize);
     long CurrPos = NewPos;
     while (H->TheCells[NewPos]->Data != NULL &&
-        StrCmp(H->TheCells[NewPos]->Data, Elem) != 0)
+        strcmp(H->TheCells[NewPos]->Data, Elem) != 0)
     {
         if (++Cnt % 2)
         {
-            NewPos = CurrPos + (Cnt + 1) / 2 * (Cnt + 1) / 2;
+            NewPos = CurrPos + ((Cnt + 1) / 2 )* ((Cnt + 1) / 2);
             while (NewPos >= H->TableSize)
             {
                 NewPos -= H->TableSize;
@@ -123,7 +100,7 @@ long Find(HashTable H, char *Elem)
     return NewPos;
 }
 
-void Insert(HashTable H, char *Elem, long *MaxCnt, long *MaxIndex, long *MaxIndex)
+void Insert(HashTable H, char *Elem, long *MaxCnt, long *MaxIndex, long *NumOfMax)
 {
     long NewPos = Find(H, Elem);
     if (H->TheCells[NewPos]->Data == NULL)
@@ -131,20 +108,21 @@ void Insert(HashTable H, char *Elem, long *MaxCnt, long *MaxIndex, long *MaxInde
         char *Data = malloc(LENGTH * sizeof(char));
         strcpy(Data, Elem);
         H->TheCells[NewPos]->Data = Data;
-        H->TheCells[NewPos]->Cnt += 1;
     }
-    else
+    H->TheCells[NewPos]->Cnt += 1;
+    if(H->TheCells[NewPos]->Cnt > *MaxCnt)
     {
-        H->TheCells[NewPos]->Cnt += 1;
-        Cnt = H->TheCells[NewPos]->Cnt;
-        Tel = H->TheCells[NewPos]->Data;
-        if (Cnt != 0 &&
-            (Cnt > *MaxCnt ||
-            (Cnt == *MaxCnt && (StrCmp(Tel, H->TheCells[MaxIndex]->Data) == 1))))
+        *MaxCnt = H->TheCells[NewPos]->Cnt;
+        *MaxIndex = NewPos;
+        *NumOfMax = 1;
+    }
+    else if(H->TheCells[NewPos]->Cnt == *MaxCnt)
+    {
+        if(strcmp(H->TheCells[NewPos]->Data, H->TheCells[*MaxIndex]->Data) == -1)
         {
-            MaxCnt = Cnt;
-            MaxIndex = i;
+            *MaxIndex = NewPos;
         }
+        *NumOfMax = *NumOfMax + 1;
     }
 }
 
@@ -157,7 +135,11 @@ long Hash(char *Data, long N)
 long getNextPrime(long N)
 {
     long K = (2 * N - 3) / 4;
-    while (4 * K + 3 < 3 * N || !IsPrime(4 * K + 3))
+    while (4 * K + 3 < 2 * N )
+    {
+        K++;
+    }
+    while (!IsPrime(4 * K + 3))
     {
         K++;
     }
@@ -177,6 +159,3 @@ bool IsPrime(long N)
     }
     return IsTrue;
 }
-
-
-
